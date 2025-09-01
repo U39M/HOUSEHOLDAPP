@@ -3,15 +3,25 @@ import React from 'react'
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
+import { theme } from '../theme/theme';
+import { Transaction } from '../types';
+import { financeCalculations } from '../utils/financeCalculations';
 
-const MonthlySummary = () => {
+interface MonthlySummaryProps {
+    monthlyTransactions: Transaction[];
+}
+
+const MonthlySummary = ({ monthlyTransactions }: MonthlySummaryProps) => {
+
+    const { income, expense, balance } = financeCalculations(monthlyTransactions);
+
     return (
         <Grid container spacing={{xs: 1, sm: 2}} mb={2}>
             {/* 収入 */}
             <Grid size={{ xs: 4 }} display={"flex"} flexDirection={"column"} >
                 <Card 
                     sx={{ 
-                        bgcolor: "blue", 
+                        bgcolor: (theme) => theme.palette.incomeColor.main, 
                         color: "white", 
                         borderRadius: "10px" ,
                         flexGrow: 1,
@@ -28,7 +38,7 @@ const MonthlySummary = () => {
                             fontWeight={"fontWeightBold"}
                             sx={{wordBreak: "break-word", fontSize: {xs: "0.8rem", sm: "1rem", md: "1.2rem"},
                         }}
-                        >¥100,000</Typography>
+                        >￥{income}</Typography>
                     </CardContent>
                 </Card>
             </Grid>
@@ -36,7 +46,7 @@ const MonthlySummary = () => {
             <Grid size={{ xs: 4 }} display={"flex"} flexDirection={"column"}>
                 <Card 
                     sx={{ 
-                        bgcolor: "red", 
+                        bgcolor: (theme) => theme.palette.expenseColor.main, 
                         color: "white", 
                         borderRadius: "10px" 
                     }}>
@@ -51,7 +61,7 @@ const MonthlySummary = () => {
                             fontWeight={"fontWeightBold"}
                             sx={{wordBreak: "break-word", fontSize: {xs: "0.8rem", sm: "1rem", md: "1.2rem"},
                         }}
-                        >¥50,000</Typography>
+                        >￥{expense}</Typography>
                     </CardContent>
                 </Card>
             </Grid>
@@ -59,7 +69,7 @@ const MonthlySummary = () => {
             <Grid size={{ xs: 4 }} display={"flex"} flexDirection={"column"}>
                 <Card 
                     sx={{ 
-                        bgcolor: "green", 
+                        bgcolor: (theme) => theme.palette.balanceColor.main, 
                         color: "white", 
                         borderRadius: "10px" 
                     }}>
@@ -74,7 +84,7 @@ const MonthlySummary = () => {
                             fontWeight={"fontWeightBold"}
                             sx={{wordBreak: "break-word", fontSize: {xs: "0.8rem", sm: "1rem", md: "1.2rem"},
                         }}
-                        >¥50,000</Typography>
+                        >￥{balance}</Typography>
                     </CardContent>
                 </Card>
             </Grid>
